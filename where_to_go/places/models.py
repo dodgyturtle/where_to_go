@@ -1,14 +1,43 @@
+import os
+import json
+
+from django.conf import settings
 from django.db import models
 from django.db.models.base import Model
 from sort_order_field import SortOrderField
 
 
+class PlaceQuerySet(models.QuerySet):
+    def fetch_places_geojson(self):
+        geojson = {"type": "FeatureCollection", "features": []}
+        for place in self:
+            feature = {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [place.longitude, place.latitude],
+                },
+                "properties": {
+                    "title": place.place_title,
+                    "placeId": place.slug,
+                    "detailsUrl": os.path.join(
+                        settings.MEDIA_URL, f"{place.slug}.json"
+                    ),
+                },
+            }
+            geojson["features"].append(feature)
+        return geojson
+
+
 class Place(models.Model):
+    slug = models.SlugField(unique=True, null=True)
     place_title = models.CharField("Название места", max_length=200, db_index=True)
     description_short = models.TextField("Краткое описание", null=True, blank=True)
     description_long = models.TextField("Полное описание", null=True, blank=True)
     latitude = models.FloatField("Широта", null=True, blank=True)
     longitude = models.FloatField("Долгота", null=True, blank=True)
+
+    objects = PlaceQuerySet.as_manager()
 
     def __str__(self):
         return self.place_title
