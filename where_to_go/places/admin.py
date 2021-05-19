@@ -1,12 +1,23 @@
 from django.contrib import admin
-from django.shortcuts import get_object_or_404
+from django.utils.html import format_html
 
-from .handlers import generate_place_details, write_details_to_json
 from .models import Place, PlaceImage
+
+
+class PlaceImageAdmin(admin.ModelAdmin):
+    readonly_fields = ["place_image"]
+
+    def place_image(self, obj):
+        return format_html(f'<img src="{obj.image_url.url}" width="200"/>')
 
 
 class PlaceImageInline(admin.TabularInline):
     model = PlaceImage
+    readonly_fields = ["place_image"]
+    fields = ("image_url", "place_image", "sort_order")
+
+    def place_image(self, obj):
+        return format_html(f'<img src="{obj.image_url.url}" width="200"/>')
 
 
 class PlaceAdmin(admin.ModelAdmin):
@@ -17,4 +28,4 @@ class PlaceAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Place, PlaceAdmin)
-admin.site.register(PlaceImage)
+admin.site.register(PlaceImage, PlaceImageAdmin)
