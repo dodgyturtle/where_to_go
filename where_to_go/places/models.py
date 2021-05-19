@@ -3,8 +3,8 @@ import json
 
 from django.conf import settings
 from django.db import models
-from django.db.models.base import Model
 from sort_order_field import SortOrderField
+from django.urls import reverse
 
 
 class PlaceQuerySet(models.QuerySet):
@@ -20,8 +20,8 @@ class PlaceQuerySet(models.QuerySet):
                 "properties": {
                     "title": place.place_title,
                     "placeId": place.slug,
-                    "detailsUrl": os.path.join(
-                        settings.MEDIA_URL, f"{place.slug}.json"
+                    "detailsUrl": reverse(
+                        "place_details", kwargs={"place_id": place.id}
                     ),
                 },
             }
