@@ -5,8 +5,15 @@ from .handlers import generate_place_details, write_details_to_json
 from .models import Place, PlaceImage
 
 
+class PlaceImageInline(admin.TabularInline):
+    model = PlaceImage
+
+
 class PlaceAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("place_title",)}
+    inlines = [
+        PlaceImageInline,
+    ]
 
 
 admin.site.register(Place, PlaceAdmin)
