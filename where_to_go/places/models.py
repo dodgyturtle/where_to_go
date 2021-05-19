@@ -3,7 +3,6 @@ import json
 
 from django.conf import settings
 from django.db import models
-from sort_order_field import SortOrderField
 from django.urls import reverse
 
 
@@ -44,7 +43,7 @@ class Place(models.Model):
 
 
 class PlaceImage(models.Model):
-    sort_order = SortOrderField("Sort")
+    sort_order = models.IntegerField("Sort", default=0, blank=False, null=False)
     place = models.ForeignKey(
         Place,
         on_delete=models.CASCADE,
@@ -52,6 +51,9 @@ class PlaceImage(models.Model):
         verbose_name="Место",
     )
     image_url = models.ImageField("Изображение места", upload_to="place_images")
-
+    
+    class Meta(object):
+        ordering = ['sort_order']
+    
     def __str__(self) -> str:
         return f"{ self.sort_order } {self.place.place_title}"
