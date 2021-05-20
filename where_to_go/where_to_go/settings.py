@@ -127,11 +127,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = env.str("STATIC_ROOT", default=os.path.join(BASE_DIR, "/assets/"))
+STATIC_ROOT = env.str("STATIC_ROOT", default=os.path.join(BASE_DIR, "assets/"))
 
-STATICFILES_DIRS = [
-    "/static/",
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -139,7 +136,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = env.str("MEDIA_ROOT", default=os.path.join(BASE_DIR, "/media/"))
+MEDIA_ROOT = env.str("MEDIA_ROOT", default=os.path.join(BASE_DIR, "media/"))
 
 
 CSRF_COOKIE_SECURE = env.bool("CSRF_COOKIE_SECURE", default=False)
