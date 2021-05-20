@@ -1,6 +1,7 @@
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
 from django.utils.html import format_html
-from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
+
 from .models import Place, PlaceImage
 
 
@@ -24,6 +25,7 @@ class PlaceAdmin(admin.ModelAdmin):
     inlines = [
         PlaceImageInline,
     ]
+    search_fields = ['place_title']
 
 
 admin.site.register(Place, PlaceAdmin)
