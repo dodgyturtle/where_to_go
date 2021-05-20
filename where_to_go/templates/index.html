@@ -145,14 +145,15 @@
     });
     map.addControl(sidebar);
 
-    // FIXME should be hidden in production mode
     L.control.custom({
       position: 'bottomleft',
       content: `
+      {% if debug %}
         <label>
             <input name="debug" type="checkbox" ${log.getLevel() <= 1 && 'checked'}/>
             Отладка
-        </label>`,
+        </label>
+        {% endif %}`,
       style: {
         padding: '10px',
         background: 'rgba(255, 255, 255, 0.7)',

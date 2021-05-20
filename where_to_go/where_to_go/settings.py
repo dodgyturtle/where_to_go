@@ -33,6 +33,7 @@ SECRET_KEY = env.str("SECRET_KEY", default="change-me")
 DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1"])
+INTERNAL_IPS = env.list("INTERNAL_IPS", default=["127.0.0.1"])
 
 # Application definition
 
@@ -128,7 +129,9 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = env.str("STATIC_ROOT", default=os.path.join(BASE_DIR, "assets/"))
-
+STATICFILES_DIRS = [
+    BASE_DIR /'static',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
