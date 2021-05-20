@@ -1,9 +1,10 @@
-import os
 import json
+import os
 
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from tinymce.models import HTMLField
 
 
 class PlaceQuerySet(models.QuerySet):
@@ -32,7 +33,7 @@ class Place(models.Model):
     slug = models.SlugField(unique=True, null=True)
     place_title = models.CharField("Название места", max_length=200, db_index=True)
     description_short = models.TextField("Краткое описание", null=True, blank=True)
-    description_long = models.TextField("Полное описание", null=True, blank=True)
+    description_long = HTMLField("Полное описание", null=True, blank=True)
     latitude = models.FloatField("Широта", null=True, blank=True)
     longitude = models.FloatField("Долгота", null=True, blank=True)
 
