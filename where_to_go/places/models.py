@@ -41,7 +41,10 @@ class Place(models.Model):
 
     def __str__(self):
         return self.place_title
-
+    
+    class Meta:
+        verbose_name = 'Место отдыха'
+        verbose_name_plural = 'Места отдыха'
 
 class PlaceImage(models.Model):
     sort_order = models.IntegerField("Sort", default=0, blank=False, null=False)
@@ -55,6 +58,8 @@ class PlaceImage(models.Model):
     
     class Meta(object):
         ordering = ['sort_order']
+        verbose_name = 'Изображение места отдыха'
+        verbose_name_plural = 'Изображение мест отдыха'
     
     def __str__(self) -> str:
         return f"{ self.sort_order } {self.place.place_title}"

@@ -14,12 +14,3 @@ def generate_place_details(place):
         "coordinates": {"lng": place.longitude, "lat": place.latitude},
     }
     return place_details
-
-
-def write_details_to_json(place_details, filename):
-    filestorage = FileSystemStorage()
-    if filestorage.exists(filename):
-        filestorage.delete(filename)
-    filestorage = FileSystemStorage()
-    json_d = json.dumps(place_details, ensure_ascii=False)
-    filestorage.save(filename, ContentFile(json_d))

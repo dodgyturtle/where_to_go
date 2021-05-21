@@ -7,6 +7,7 @@ from .models import Place, PlaceImage
 
 class PlaceImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     readonly_fields = ["place_image"]
+
     def place_image(self, obj):
         return format_html(f'<img src="{obj.image_url.url}" width="200"/>')
 
@@ -25,7 +26,7 @@ class PlaceAdmin(admin.ModelAdmin):
     inlines = [
         PlaceImageInline,
     ]
-    search_fields = ['place_title']
+    search_fields = ["place_title"]
 
 
 admin.site.register(Place, PlaceAdmin)
