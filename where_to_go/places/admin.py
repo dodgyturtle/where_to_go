@@ -22,7 +22,6 @@ class PlaceImageInline(SortableInlineAdminMixin, admin.TabularInline):
 
 
 class PlaceAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("place_title",)}
     inlines = [
         PlaceImageInline,
     ]

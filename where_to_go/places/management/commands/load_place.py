@@ -16,6 +16,7 @@ def fetch_response(link: str, params: dict = {}) -> requests.models.Response:
 
 class Command(BaseCommand):
     help = "Command for download from URL(JSON) informations about interesting place."
+
     def add_arguments(self, parser):
         parser.add_argument(
             "url", nargs=1, type=str, help="Адрес на JSON файл с описанием места"

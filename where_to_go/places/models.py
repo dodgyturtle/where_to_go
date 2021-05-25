@@ -7,12 +7,11 @@ from tinymce.models import HTMLField
 
 
 class Place(models.Model):
-    slug = models.SlugField(unique=True, null=True)
     place_title = models.CharField("Название места", max_length=200, db_index=True)
-    description_short = models.TextField("Краткое описание", null=True, blank=True)
-    description_long = HTMLField("Полное описание", null=True, blank=True)
-    latitude = models.FloatField("Широта", null=True, blank=True)
-    longitude = models.FloatField("Долгота", null=True, blank=True)
+    description_short = models.TextField("Краткое описание", null=False, blank=False)
+    description_long = HTMLField("Полное описание", null=False, blank=True)
+    latitude = models.FloatField("Широта", null=False, blank=False)
+    longitude = models.FloatField("Долгота", null=False, blank=False)
 
     def __str__(self):
         return self.place_title
@@ -23,14 +22,17 @@ class Place(models.Model):
 
 
 class PlaceImage(models.Model):
-    sort_order = models.IntegerField("Сортировать", default=0, blank=False, null=False)
+    sort_order = models.IntegerField("Сортировать", default=0)
     place = models.ForeignKey(
         Place,
         on_delete=models.CASCADE,
         related_name="place_images",
         verbose_name="Место",
+        null=False,
     )
-    image_url = models.ImageField("Изображение места", upload_to="place_images")
+    image_url = models.ImageField(
+        "Изображение места", upload_to="place_images", null=False, blank=False
+    )
 
     class Meta(object):
         ordering = ["sort_order"]

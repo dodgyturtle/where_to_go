@@ -28,7 +28,7 @@ def fetch_places_geojson(places):
             },
             "properties": {
                 "title": place.place_title,
-                "placeId": place.slug,
+                "placeId": place.id,
                 "detailsUrl": reverse("place_details", kwargs={"place_id": place.id}),
             },
         }
