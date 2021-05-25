@@ -23,7 +23,7 @@ class Place(models.Model):
 
 
 class PlaceImage(models.Model):
-    sort_order = models.IntegerField("Sort", default=0, blank=False, null=False)
+    sort_order = models.IntegerField("Сортировать", default=0, blank=False, null=False)
     place = models.ForeignKey(
         Place,
         on_delete=models.CASCADE,
@@ -37,5 +37,5 @@ class PlaceImage(models.Model):
         verbose_name = "Изображение места отдыха"
         verbose_name_plural = "Изображение мест отдыха"
 
-    def __str__(self) -> str:
-        return f"{ self.sort_order } {self.place.place_title}"
+    def __str__(self):
+        return f"{self.sort_order} {self.place.place_title}"
