@@ -1,12 +1,13 @@
 from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
-from django.utils.html import format_html, mark_safe
+from django.utils.html import format_html
 
 from .models import Place, PlaceImage
 
 
 class PlaceImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     readonly_fields = ["place_image"]
+    autocomplete_fields = ["place"]
 
     def place_image(self, obj):
         return format_html('<img src="{}" width="200"/>', obj.image_url.url)
