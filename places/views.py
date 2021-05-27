@@ -2,7 +2,6 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-
 from .models import Place
 
 
@@ -36,13 +35,13 @@ def fetch_places_geojson(places):
     return geojson
 
 
-def places(request):
+def render_places(request):
     places = Place.objects.all()
     places_geojson = fetch_places_geojson(places)
     return render(request, "index.html", context={"places": places_geojson})
 
 
-def place_details_view(request, place_id):
+def prepare_place_details_view(request, place_id):
     place = get_object_or_404(Place, id=place_id)
     place_details = generate_place_details(place)
     return JsonResponse(

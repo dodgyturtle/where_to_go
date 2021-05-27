@@ -1,24 +1,20 @@
-import json
-import os
-
-
 from django.db import models
 from tinymce.models import HTMLField
 
 
 class Place(models.Model):
     place_title = models.CharField("Название места", max_length=200, db_index=True)
-    description_short = models.TextField("Краткое описание", null=False, blank=False)
+    description_short = models.TextField("Краткое описание", null=False, blank=True)
     description_long = HTMLField("Полное описание", null=False, blank=True)
-    latitude = models.FloatField("Широта", null=False, blank=False)
-    longitude = models.FloatField("Долгота", null=False, blank=False)
-
-    def __str__(self):
-        return self.place_title
+    latitude = models.FloatField("Широта")
+    longitude = models.FloatField("Долгота")
 
     class Meta:
         verbose_name = "Место отдыха"
         verbose_name_plural = "Места отдыха"
+
+    def __str__(self):
+        return self.place_title
 
 
 class PlaceImage(models.Model):
@@ -28,11 +24,8 @@ class PlaceImage(models.Model):
         on_delete=models.CASCADE,
         related_name="place_images",
         verbose_name="Место",
-        null=False,
     )
-    image_url = models.ImageField(
-        "Изображение места", upload_to="place_images", null=False, blank=False
-    )
+    image_url = models.ImageField("Изображение места", upload_to="place_images")
 
     class Meta(object):
         ordering = ["sort_order"]
