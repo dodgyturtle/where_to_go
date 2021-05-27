@@ -1,7 +1,6 @@
 import os
 
 import requests
-from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from places.models import Place, PlaceImage
@@ -27,21 +26,23 @@ class Command(BaseCommand):
         for url in options["url"]:
             try:
                 link_response = fetch_response(url)
-                place_json_description = link_response.json()
-                place, place_created = Place.objects.get_or_create(
-                    place_title=place_json_description["title"],
-                    description_short=place_json_description["description_short"],
-                    description_long=place_json_description["description_long"],
-                    latitude=place_json_description["coordinates"]["lat"],
-                    longitude=place_json_description["coordinates"]["lng"],
+                place_raw = link_response.json()
+                place, place_created = Place.objects.update_or_create(
+                    place_title=place_raw["title"],
+                    latitude=place_raw["coordinates"]["lat"],
+                    longitude=place_raw["coordinates"]["lng"],
+                    defaults={
+                        "description_short": place_raw["description_short"],
+                        "description_long": place_raw["description_long"],
+                    },
                 )
                 if place_created:
-                    for index, image_url in enumerate(place_json_description["imgs"]):
+                    for index, image_url in enumerate(place_raw["imgs"]):
                         image_filename = os.path.basename(image_url)
                         response = fetch_response(image_url)
-                        image, image_created = PlaceImage.objects.get_or_create(
+                        image, image_created = PlaceImage.objects.update_or_create(
                             sort_order=index,
-                            place=place,
+                            place=place
                         )
                         image.image_url.save(
                             image_filename, ContentFile(response.content), save=True
